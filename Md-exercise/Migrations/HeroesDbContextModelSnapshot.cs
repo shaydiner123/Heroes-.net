@@ -321,7 +321,7 @@ namespace Md_exercise.Migrations
                         .IsRequired();
 
                     b.HasOne("Md_exercise.Core.Domain.ApplicationUser", "Trainer")
-                        .WithMany()
+                        .WithMany("Heroes")
                         .HasForeignKey("TrainerId");
 
                     b.Navigation("HeroAbility");
@@ -381,6 +381,11 @@ namespace Md_exercise.Migrations
                 });
 
             modelBuilder.Entity("Md_exercise.Core.Domain.Ability", b =>
+                {
+                    b.Navigation("Heroes");
+                });
+
+            modelBuilder.Entity("Md_exercise.Core.Domain.ApplicationUser", b =>
                 {
                     b.Navigation("Heroes");
                 });

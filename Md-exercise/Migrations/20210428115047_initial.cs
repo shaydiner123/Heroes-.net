@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Md_exercise.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,6 +56,18 @@ namespace Md_exercise.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SuitColors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SuitColors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,7 +184,6 @@ namespace Md_exercise.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HeroAbilityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TrainingStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SuitColors = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TrainerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     StartingPower = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     CurrentPower = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
@@ -193,6 +204,30 @@ namespace Md_exercise.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HeroSuitColor",
+                columns: table => new
+                {
+                    HeroesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SuitColorsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeroSuitColor", x => new { x.HeroesId, x.SuitColorsId });
+                    table.ForeignKey(
+                        name: "FK_HeroSuitColor_Heroes_HeroesId",
+                        column: x => x.HeroesId,
+                        principalTable: "Heroes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HeroSuitColor_SuitColors_SuitColorsId",
+                        column: x => x.SuitColorsId,
+                        principalTable: "SuitColors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -243,6 +278,11 @@ namespace Md_exercise.Migrations
                 name: "IX_Heroes_TrainerId",
                 table: "Heroes",
                 column: "TrainerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HeroSuitColor_SuitColorsId",
+                table: "HeroSuitColor",
+                column: "SuitColorsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -263,10 +303,16 @@ namespace Md_exercise.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Heroes");
+                name: "HeroSuitColor");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Heroes");
+
+            migrationBuilder.DropTable(
+                name: "SuitColors");
 
             migrationBuilder.DropTable(
                 name: "Abilities");

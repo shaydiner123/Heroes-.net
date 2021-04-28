@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Md_exercise.Migrations.HeroesLogs
 {
     [DbContext(typeof(HeroesLogsDbContext))]
-    [Migration("20210426215115_InitialILogsDbContext")]
+    [Migration("20210428115508_InitialILogsDbContext")]
     partial class InitialILogsDbContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

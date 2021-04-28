@@ -21,15 +21,15 @@ namespace Md_exercise.Core.Dto_s
 
         public DateTime TrainingStartDate { get; set; }
 
-        [Required]
+        
         public IList<string> SuitColors { get; set; }
 
         public string TrainerId { get; set; }
 
-        [Range(0, double.MaxValue)]
+        
         public decimal StartingPower { get; set; }
 
-        [Range(0, double.MaxValue)]
+        
         public decimal? CurrentPower { get; set; } = 0;
 
         public uint? TrainingAmountPerformedToday { get; set; } = 0;

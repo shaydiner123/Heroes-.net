@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Md_exercise.Migrations
 {
     [DbContext(typeof(HeroesDbContext))]
-    [Migration("20210426152649_AddSuitColorsTable")]
-    partial class AddSuitColorsTable
+    [Migration("20210428115047_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -165,7 +165,7 @@ namespace Md_exercise.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SuitCilors");
+                    b.ToTable("SuitColors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -323,7 +323,7 @@ namespace Md_exercise.Migrations
                         .IsRequired();
 
                     b.HasOne("Md_exercise.Core.Domain.ApplicationUser", "Trainer")
-                        .WithMany()
+                        .WithMany("Heroes")
                         .HasForeignKey("TrainerId");
 
                     b.Navigation("HeroAbility");
@@ -383,6 +383,11 @@ namespace Md_exercise.Migrations
                 });
 
             modelBuilder.Entity("Md_exercise.Core.Domain.Ability", b =>
+                {
+                    b.Navigation("Heroes");
+                });
+
+            modelBuilder.Entity("Md_exercise.Core.Domain.ApplicationUser", b =>
                 {
                     b.Navigation("Heroes");
                 });

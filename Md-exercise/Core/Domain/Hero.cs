@@ -21,8 +21,8 @@ namespace Md_exercise.Core.Domain
 
         public DateTime TrainingStartDate { get; set; }
 
-        [Required]
-        public IList<SuitColor> SuitColors { get; set; } = new List<SuitColor>();
+       
+        public IList<SuitColor> SuitColors { get; set; } 
 
 
         public ApplicationUser Trainer { get; set; }
@@ -31,11 +31,11 @@ namespace Md_exercise.Core.Domain
         [ForeignKey("Trainer")]
         public string TrainerId { get; set; }
 
-        [Range(0, double.MaxValue)]
+    
         [Column(TypeName = "decimal(8,2)")]
         public decimal StartingPower { get; set; }
 
-        [Range(0, double.MaxValue)]
+    
         [Column(TypeName = "decimal(8,2)")]
         public decimal CurrentPower { get; set; }
 

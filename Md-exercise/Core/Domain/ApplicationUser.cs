@@ -8,6 +8,6 @@ namespace Md_exercise.Core.Domain
 {
     public class ApplicationUser : IdentityUser
     {
-        public IList<Hero> Heroes = new List<Hero>();
+        public IList<Hero> Heroes { get; set; }
     }
 }

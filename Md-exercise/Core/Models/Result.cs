@@ -13,3 +13,6 @@ namespace Md_exercise.Core.Models
         public T Content { get; set; }
     }
 }
+
+
+

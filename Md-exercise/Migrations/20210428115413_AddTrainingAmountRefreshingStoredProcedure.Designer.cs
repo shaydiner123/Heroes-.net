@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Md_exercise.Migrations
 {
     [DbContext(typeof(HeroesDbContext))]
-    [Migration("20210426112046_Initial")]
-    partial class Initial
+    [Migration("20210428115413_AddTrainingAmountRefreshingStoredProcedure")]
+    partial class AddTrainingAmountRefreshingStoredProcedure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace Md_exercise.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("HeroSuitColor", b =>
+                {
+                    b.Property<Guid>("HeroesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SuitColorsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("HeroesId", "SuitColorsId");
+
+                    b.HasIndex("SuitColorsId");
+
+                    b.ToTable("HeroSuitColor");
+                });
 
             modelBuilder.Entity("Md_exercise.Core.Domain.Ability", b =>
                 {
@@ -120,10 +135,6 @@ namespace Md_exercise.Migrations
                     b.Property<decimal>("StartingPower")
                         .HasColumnType("decimal(8,2)");
 
-                    b.Property<string>("SuitColors")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TrainerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -140,6 +151,21 @@ namespace Md_exercise.Migrations
                     b.HasIndex("TrainerId");
 
                     b.ToTable("Heroes");
+                });
+
+            modelBuilder.Entity("Md_exercise.Core.Domain.SuitColor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SuitColors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,6 +299,21 @@ namespace Md_exercise.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("HeroSuitColor", b =>
+                {
+                    b.HasOne("Md_exercise.Core.Domain.Hero", null)
+                        .WithMany()
+                        .HasForeignKey("HeroesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Md_exercise.Core.Domain.SuitColor", null)
+                        .WithMany()
+                        .HasForeignKey("SuitColorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Md_exercise.Core.Domain.Hero", b =>
                 {
                     b.HasOne("Md_exercise.Core.Domain.Ability", "HeroAbility")
@@ -282,7 +323,7 @@ namespace Md_exercise.Migrations
                         .IsRequired();
 
                     b.HasOne("Md_exercise.Core.Domain.ApplicationUser", "Trainer")
-                        .WithMany()
+                        .WithMany("Heroes")
                         .HasForeignKey("TrainerId");
 
                     b.Navigation("HeroAbility");
@@ -342,6 +383,11 @@ namespace Md_exercise.Migrations
                 });
 
             modelBuilder.Entity("Md_exercise.Core.Domain.Ability", b =>
+                {
+                    b.Navigation("Heroes");
+                });
+
+            modelBuilder.Entity("Md_exercise.Core.Domain.ApplicationUser", b =>
                 {
                     b.Navigation("Heroes");
                 });
